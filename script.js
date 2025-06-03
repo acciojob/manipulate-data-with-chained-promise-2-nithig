@@ -31,7 +31,7 @@ function delay(ms) {
                     outputDiv.innerHTML = '<span class="loading">Filtering odd numbers (1 second)...</span>';
                     
                     // Filter out odd numbers and add 1-second delay
-                    return delay(1000).then(() => {
+                    return delay(1500).then(() => {
                         const evenNumbers = array.filter(num => num % 2 === 0);
                         console.log('Filtered even numbers:', evenNumbers);
                         
@@ -68,45 +68,7 @@ function delay(ms) {
                 });
         }
 
-        // Alternative implementation using async/await (commented out)
-        /*
-        async function manipulateArrayWithAsyncAwait() {
-            const outputDiv = document.getElementById('output');
-            const startBtn = document.getElementById('startBtn');
-            
-            try {
-                startBtn.disabled = true;
-                outputDiv.innerHTML = '<span class="loading">Loading initial array (3 seconds)...</span>';
-                
-                // Get initial array after 3 seconds
-                const initialArray = await getInitialArray();
-                console.log('Initial array received:', initialArray);
-                
-                // Filter odd numbers after 1 second delay
-                outputDiv.innerHTML = '<span class="loading">Filtering odd numbers (1 second)...</span>';
-                await delay(1000);
-                
-                const evenNumbers = initialArray.filter(num => num % 2 === 0);
-                console.log('Filtered even numbers:', evenNumbers);
-                outputDiv.textContent = evenNumbers.join(',');
-                
-                // Multiply by 2 after 2 second delay
-                outputDiv.innerHTML = `${evenNumbers.join(',')} <span class="loading" style="font-size: 14px; display: block; margin-top: 10px;">Multiplying by 2 (2 seconds)...</span>`;
-                await delay(2000);
-                
-                const multipliedNumbers = evenNumbers.map(num => num * 2);
-                console.log('Multiplied numbers:', multipliedNumbers);
-                outputDiv.textContent = multipliedNumbers.join(',');
-                
-                startBtn.disabled = false;
-            } catch (error) {
-                console.error('Error:', error);
-                outputDiv.textContent = 'Error occurred';
-                startBtn.disabled = false;
-            }
-        }
-        */
-
+        
         // Reset function
         function resetOutput() {
             const outputDiv = document.getElementById('output');
