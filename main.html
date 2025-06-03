@@ -7,7 +7,28 @@
 
   <body>
     <!-- do not change this code -->
-    <div id="output"></div>
+    <div class="container">
+        <h1>Chained Promises Array Manipulation</h1>
+        
+        <div class="info">
+            <p><strong>Initial Array:</strong> [1, 2, 3, 4]</p>
+            <p><strong>Process:</strong> Filter odds → Multiply evens by 2</p>
+        </div>
+        
+        <div class="timeline">
+            <h3>Expected Timeline:</h3>
+            <ul>
+                <li><strong>Start:</strong> Empty output</li>
+                <li><strong>After 1 second:</strong> [2, 4] (filtered even numbers)</li>
+                <li><strong>After 3 seconds total:</strong> [4, 8] (evens multiplied by 2)</li>
+            </ul>
+        </div>
+        
+        <button id="startBtn">Start Process</button>
+        <button id="resetBtn">Reset</button>
+        
+        <div id="output"></div>
+    </div>
     <script type="text/javascript" src="./script.js"></script>
   </body>
 </html>
