@@ -1,83 +1,47 @@
-//your JS code here. If required.
 function delay(ms) {
-            return new Promise(resolve => {
-                setTimeout(resolve, ms);
-            });
-        }
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
-        // Initial promise that resolves with the array after 3 seconds
-        function getInitialArray() {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    resolve([1, 2, 3, 4]);
-                }, 3000);
-            });
-        }
+  // Returns initial array after 3 seconds
+  function getInitialArray() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve([1, 2, 3, 4]);
+      }, 3000); // 3 second delay
+    });
+  }
 
-        // Function to manipulate array using chained promises
-        function manipulateArrayWithPromises() {
-            const outputDiv = document.getElementById('output');
-            const startBtn = document.getElementById('startBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            
-            // Disable start button and show loading
-            startBtn.disabled = true;
-            outputDiv.innerHTML = '<span class="loading">Loading initial array (3 seconds)...</span>';
-            
-            // Start the promise chain
-            getInitialArray()
-                .then(array => {
-                    console.log('Initial array received:', array);
-                    outputDiv.innerHTML = '<span class="loading">Filtering odd numbers (1 second)...</span>';
-                    
-                    // Filter out odd numbers and add 1-second delay
-                    return delay(2000).then(() => {
-                        const evenNumbers = array.filter(num => num % 2 === 0);
-                        console.log('Filtered even numbers:', evenNumbers);
-                        
-                        // Update DOM with filtered result
-                        outputDiv.textContent = evenNumbers.join(',');
-                        
-                        return evenNumbers;
-                    });
-                })
-                .then(evenNumbers => {
-                    console.log('Processing even numbers for multiplication...');
-                    outputDiv.innerHTML = `${evenNumbers.join(',')} <span class="loading" style="font-size: 14px; display: block; margin-top: 10px;">Multiplying by 2 (2 seconds)...</span>`;
-                    
-                    // Multiply each even number by 2 and add 2-second delay
-                    return delay(1000).then(() => {
-                        const multipliedNumbers = evenNumbers.map(num => num * 2);
-                        console.log('Multiplied numbers:', multipliedNumbers);
-                        
-                        // Update DOM with final result
-                        outputDiv.textContent = multipliedNumbers.join(',');
-                        
-                        return multipliedNumbers;
-                    });
-                })
-                .then(finalResult => {
-                    console.log('Final result:', finalResult);
-                    // Re-enable start button
-                    startBtn.disabled = false;
-                })
-                .catch(error => {
-                    console.error('Error in promise chain:', error);
-                    outputDiv.textContent = 'Error occurred';
-                    startBtn.disabled = false;
-                });
-        }
+  function manipulateArrayWithPromises() {
+    const outputDiv = document.getElementById("output");
+    const startBtn = document.getElementById("startBtn");
 
-        
-        // Reset function
-        function resetOutput() {
-            const outputDiv = document.getElementById('output');
-            const startBtn = document.getElementById('startBtn');
-            
-            outputDiv.textContent = '';
-            startBtn.disabled = false;
-        }
+    startBtn.disabled = true; // prevent repeated clicks
+    outputDiv.textContent = ""; // clear output initially
 
-        // Event listeners
-        document.getElementById('startBtn').addEventListener('click', manipulateArrayWithPromises);
-        document.getElementById('resetBtn').addEventListener('click', resetOutput);
+    getInitialArray()
+      .then(array => {
+        // Step 1: Filter even numbers after a 1-second delay
+        return delay(1000).then(() => {
+          const evenNumbers = array.filter(num => num % 2 === 0);
+          outputDiv.textContent = evenNumbers.join(","); // Display [2,4]
+          return evenNumbers;
+        });
+      })
+      .then(evenNumbers => {
+        // Step 2: Multiply by 2 after 2-second delay
+        return delay(2000).then(() => {
+          const multiplied = evenNumbers.map(num => num * 2);
+          outputDiv.textContent = multiplied.join(","); // Display [4,8]
+          return multiplied;
+        });
+      })
+      .catch(err => {
+        outputDiv.textContent = "Error occurred";
+        console.error(err);
+      })
+      .finally(() => {
+        startBtn.disabled = false;
+      });
+  }
+
+  document.getElementById("startBtn").addEventListener("click", manipulateArrayWithPromises);
