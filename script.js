@@ -31,7 +31,7 @@ function delay(ms) {
                     outputDiv.innerHTML = '<span class="loading">Filtering odd numbers (1 second)...</span>';
                     
                     // Filter out odd numbers and add 1-second delay
-                    return delay(1500).then(() => {
+                    return delay(2000).then(() => {
                         const evenNumbers = array.filter(num => num % 2 === 0);
                         console.log('Filtered even numbers:', evenNumbers);
                         
@@ -46,7 +46,7 @@ function delay(ms) {
                     outputDiv.innerHTML = `${evenNumbers.join(',')} <span class="loading" style="font-size: 14px; display: block; margin-top: 10px;">Multiplying by 2 (2 seconds)...</span>`;
                     
                     // Multiply each even number by 2 and add 2-second delay
-                    return delay(2000).then(() => {
+                    return delay(1000).then(() => {
                         const multipliedNumbers = evenNumbers.map(num => num * 2);
                         console.log('Multiplied numbers:', multipliedNumbers);
                         
