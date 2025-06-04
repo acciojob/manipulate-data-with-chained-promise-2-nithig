@@ -1,47 +1,33 @@
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+function delay(data, time) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(data), time);
+  });
+}
 
-  // Returns initial array after 3 seconds
-  function getInitialArray() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve([1, 2, 3, 4]);
-      }, 3000); // 3 second delay
+function manipulateArray() {
+  // Step 1: Initial promise resolving after 3 seconds
+  delay([1, 2, 3, 4], 3000)
+    .then((array) => {
+      // Step 2: Filter even numbers after a 1-second delay
+      const evenNumbers = array.filter(num => num % 2 === 0);
+      return delay(evenNumbers, 1000);
+    })
+    .then((filteredArray) => {
+      // Update output div with filtered even numbers
+      document.getElementById('output').textContent = filteredArray.join(',');
+      
+      // Step 3: Multiply by 2 after another 2-second delay
+      const multiplied = filteredArray.map(num => num * 2);
+      return delay(multiplied, 2000);
+    })
+    .then((finalArray) => {
+      // Final update of output div with multiplied array
+      document.getElementById('output').textContent = finalArray.join(',');
+    })
+    .catch((err) => {
+      console.error('An error occurred:', err);
     });
-  }
+}
 
-  function manipulateArrayWithPromises() {
-    const outputDiv = document.getElementById("output");
-    const startBtn = document.getElementById("startBtn");
-
-    startBtn.disabled = true; // prevent repeated clicks
-    outputDiv.textContent = ""; // clear output initially
-
-    getInitialArray()
-      .then(array => {
-        // Step 1: Filter even numbers after a 1-second delay
-        return delay(1000).then(() => {
-          const evenNumbers = array.filter(num => num % 2 === 0);
-          outputDiv.textContent = evenNumbers.join(","); // Display [2,4]
-          return evenNumbers;
-        });
-      })
-      .then(evenNumbers => {
-        // Step 2: Multiply by 2 after 2-second delay
-        return delay(2000).then(() => {
-          const multiplied = evenNumbers.map(num => num * 2);
-          outputDiv.textContent = multiplied.join(","); // Display [4,8]
-          return multiplied;
-        });
-      })
-      .catch(err => {
-        outputDiv.textContent = "Error occurred";
-        console.error(err);
-      })
-      .finally(() => {
-        startBtn.disabled = false;
-      });
-  }
-
-  document.getElementById("startBtn").addEventListener("click", manipulateArrayWithPromises);
+// Run the function when the page loads
+window.onload = manipulateArray;
